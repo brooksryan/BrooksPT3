@@ -1,5 +1,5 @@
 import openai
-openai.api_key = "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"
+openai.api_key = "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"
 
 import pinecone
 pinecone.init(
