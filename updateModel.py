@@ -1,11 +1,12 @@
 from tqdm.auto import tqdm
+import os
 import datetime
 from time import sleep
 import uuid
 
 # Import open AI
 import openai
-openai.api_key = "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"
+openai.api_key = os.environ.get('OPENAPI_KEY')
 
 # initialize connection (get API key at app.pinecone.io)
 import pinecone
@@ -16,8 +17,6 @@ pinecone.init(
 
 index_name = 'brooks-only-chat-messages'
 embed_model = "text-embedding-ada-002"
-
-
 
 #get dimensions from sample embedding
 def get_length_of_embedding(embed_model):

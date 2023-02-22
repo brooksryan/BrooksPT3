@@ -1,6 +1,8 @@
 import os
 from flask import Flask, request
 import brooksChat
+import openai
+openai.api_key = os.environ.get('OPENAPI_KEY')
 
 app = Flask(__name__)
 
