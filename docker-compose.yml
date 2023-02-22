@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  brookspt3:
+    image: brookspt3
+    build:
+      context: .
+      dockerfile: ./Dockerfile
