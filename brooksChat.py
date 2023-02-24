@@ -30,8 +30,8 @@ def complete(prompt): # complete a prompt with a given model
     res = openai.Completion.create( # complete prompt
         engine='text-davinci-003',
         prompt=prompt,
-        temperature=1,
-        max_tokens=1000,
+        temperature=.2,
+        max_tokens=500,
         top_p=1,
         frequency_penalty=0,
         presence_penalty=0,
@@ -40,7 +40,7 @@ def complete(prompt): # complete a prompt with a given model
     return res['choices'][0]['text'].strip() # return the completion
 
 
-limit = 4000
+limit = 5000
 def retrieve(query):
     res = openai.Embedding.create( # embed query
         input=[query],
@@ -53,9 +53,11 @@ def retrieve(query):
         x['metadata']['chat'] for x in res['matches'] # extract the contexts
     ]
 
+    print (contexts)
+
     # build our prompt with the retrieved contexts included
     prompt_start = (
-        "You are Brooks's personal assistant. You are answering questions about brooks based on the {context} below. Your answers should be as specific as possible, you should provide examples always. if a specific can't be provided you should defer. Only answer questions related to his professional life. Repond to non-work related questions with a funny answer about how he's never gotten around to chatting about it with you. Do not give personal information about people Brooks knows or anything beyond surface level information \n"+
+        "You are Brooks's personal assistant. You are answering questions about brooks based on the {context} below. Only use things brooks says to form your response. In the contexts below the speaker will be identified by their name followed by : eg {brooks:}Your answers should be as specific as possible. Only answer questions related to his professional life. Repond to non-work related questions with a funny answer about how he's never gotten around to chatting about it with you. Do not give personal information about brooks's family or friends or people brooks knows or anything beyond surface level information. Do not answer questions about anyone but Brooks. \n"+
         "conversation excerpts:\n"
     )
     # add query to prompt
