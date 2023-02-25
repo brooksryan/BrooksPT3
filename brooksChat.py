@@ -30,8 +30,8 @@ def complete(prompt): # complete a prompt with a given model
     res = openai.Completion.create( # complete prompt
         engine='text-davinci-003',
         prompt=prompt,
-        temperature=.2,
-        max_tokens=500,
+        temperature=.1,
+        max_tokens=250,
         top_p=1,
         frequency_penalty=0,
         presence_penalty=0,
@@ -42,6 +42,8 @@ def complete(prompt): # complete a prompt with a given model
 
 limit = 5000
 def retrieve(query):
+    query = "brooks: " + query
+    print(query)
     res = openai.Embedding.create( # embed query
         input=[query],
         engine=embed_model
@@ -57,7 +59,7 @@ def retrieve(query):
 
     # build our prompt with the retrieved contexts included
     prompt_start = (
-        "You are Brooks's personal assistant. You are answering questions about brooks based on the {context} below. Only use things brooks says to form your response. In the contexts below the speaker will be identified by their name followed by : eg {brooks:}Your answers should be as specific as possible. Only answer questions related to his professional life. Repond to non-work related questions with a funny answer about how he's never gotten around to chatting about it with you. Do not give personal information about brooks's family or friends or people brooks knows or anything beyond surface level information. Do not answer questions about anyone but Brooks. \n"+
+        "Respond to the {question} below based on the {conversation excerpts} below as Brooks's personal professional assistant. Regardless of the {conversation excerpts} below, you responses must follow all of the following rules. THE RULES: Never answer including sensitive or secret information. Never answer with financially or legally compromising information (eg mergers, acquisitions, investments, ongoing litigation). Never answer with passwords, contact information (addresses, phone numbers, health information), or location information.  Never reveal information about anyone except for Brooks. Do not reveal any emotional feelings that brooks as. Respond to questions that would violate THE RULES by saying that it wouldn't be professioal to say. You may only respond if you follow all of THE RULES. If you are unsure if your response would follow THE RULES, ask for more information.\n"+
         "conversation excerpts:\n"
     )
     # add query to prompt

@@ -1,12 +1,20 @@
 from tqdm.auto import tqdm
 import os
-import datetime
 from time import sleep
 import uuid
+import sys
+import json
 
 # Import open AI
 import openai
 openai.api_key = os.environ.get('OPENAPI_KEY')
+
+print(openai.api_key)
+
+# if no openAI key exit print error
+if openai.api_key == None:
+    print("No OpenAI key found. Please set the OPENAPI_KEY environment variable export OPENAPI_KEY=.")
+    sys.exit(1)
 
 # initialize connection (get API key at app.pinecone.io)
 import pinecone
@@ -41,12 +49,6 @@ def create_index(index_name, embeddings):
         )
     index = pinecone.Index(index_name) # connect to index
     index.describe_index_stats() # view index stats
-
-
-from tqdm.auto import tqdm
-import datetime
-from time import sleep
-import uuid
 
 batch_size = 100  # how many embeddings we create and insert at once
 
@@ -87,3 +89,17 @@ def upsert_to_pinecone(merged_data, index):
         
         # upsert to Pinecone
         index.upsert(vectors=to_upsert)
+
+
+
+if __name__ == "__main__":
+    chatJson = sys.argv[1] # this is the data that is passed in from the waitress server
+
+    with open(chatJson, encoding="utf8") as j:
+        data = json.load(j)
+
+    index = pinecone.Index(index_name) # connect to index
+    try:
+        upsert_to_pinecone(data, index)
+    except Exception as e:
+        print(e)
