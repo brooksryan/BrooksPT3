@@ -1,9 +1,12 @@
 import openai
-openai.api_key = "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"
+import os
+openai.api_key = os.environ.get('OPENAPI_KEY')
+
+PINECONE_KEY = os.environ.get('PINECONE_KEY')
 
 import pinecone
 pinecone.init(
-    api_key="15dde2ed-e886-49f5-b16e-82e26d5baa15",
+    api_key=PINECONE_KEY,
     environment="us-east1-gcp"  # find next to API key
 )
 index_name = 'brooks-only-chat-messages'
