@@ -8,8 +8,7 @@ import json
 # Import open AI
 import openai
 openai.api_key = os.environ.get('OPENAPI_KEY')
-
-print(openai.api_key)
+PINECONE_KEY = os.environ.get('PINECONE_KEY')
 
 # if no openAI key exit print error
 if openai.api_key == None:
@@ -19,7 +18,7 @@ if openai.api_key == None:
 # initialize connection (get API key at app.pinecone.io)
 import pinecone
 pinecone.init(
-    api_key="15dde2ed-e886-49f5-b16e-82e26d5baa15",
+    api_key=PINECONE_KEY,
     environment="us-east1-gcp"  # find next to API key
 )
 
