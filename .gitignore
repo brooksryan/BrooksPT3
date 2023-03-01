@@ -1,6 +1,7 @@
 /chatTranscripts
 /Takeout
 /localChats
+localnotes.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

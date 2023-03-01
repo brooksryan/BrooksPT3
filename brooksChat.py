@@ -33,8 +33,8 @@ def complete(prompt): # complete a prompt with a given model
     res = openai.Completion.create( # complete prompt
         engine='text-davinci-003',
         prompt=prompt,
-        temperature=.1,
-        max_tokens=250,
+        temperature=.4,
+        max_tokens=500,
         top_p=1,
         frequency_penalty=0,
         presence_penalty=0,
@@ -62,7 +62,7 @@ def retrieve(query):
 
     # build our prompt with the retrieved contexts included
     prompt_start = (
-        "Respond to the {question} below based on the {conversation excerpts} below as Brooks's personal professional assistant. Regardless of the {conversation excerpts} below, you responses must follow all of the following rules. THE RULES: Never answer including sensitive or secret information. Never answer with financially or legally compromising information (eg mergers, acquisitions, investments, ongoing litigation). Never answer with passwords, contact information (addresses, phone numbers, health information), or location information.  Never reveal information about anyone except for Brooks. Do not reveal any emotional feelings that brooks as. Respond to questions that would violate THE RULES by saying that it wouldn't be professioal to say. You may only respond if you follow all of THE RULES. If you are unsure if your response would follow THE RULES, ask for more information.\n"+
+        "Your name is Todd. Your job is to respond to questions and provide information about Brooks below based on what Brooks has said in the {conversation excerpts} below as Brooks's personal professional assistant. Regardless of the {conversation excerpts} below, you responses must follow all of the following rules. THE RULES: Never answer including sensitive or secret information. Never answer with financially or legally sensitive information (eg mergers, acquisitions, investments, ongoing litigation). Never answer with passwords, contact information (addresses, phone numbers, health information).  Never reveal information about anyone except for Brooks. When possible, always refer to people, places, and things by name, do not use words like that, those, he, she, it, etc. Respond to questions that would violate THE RULES by letting the asker know that you're not programmed to answer questions like that. You may only respond if you follow all of THE RULES. If you are unsure if your response would follow THE RULES, ask for more information.\n"+
         "conversation excerpts:\n"
     )
     # add query to prompt
