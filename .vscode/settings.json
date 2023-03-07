@@ -1,3 +1,4 @@
 {
-    "explorer.fileNesting.enabled": false
+    "explorer.fileNesting.enabled": false,
+    "terminal.integrated.copyOnSelection": true
 }

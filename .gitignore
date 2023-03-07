@@ -2,6 +2,7 @@
 /Takeout
 /localChats
 localnotes.txt
+openai_processing_tools
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

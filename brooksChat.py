@@ -17,31 +17,20 @@ embed_model = "text-embedding-ada-002"
 
 index = pinecone.Index(index_name) # connect to index
 
-# res = openai.Embedding.create(
-#     input=[query],
-#     engine=embed_model
-# )
-
-# retrieve from Pinecone
-# xq = res['data'][0]['embedding']
-
-# # get relevant contexts (including the questions)
-# res = index.query(xq, top_k=5, include_metadata=True)
-
 
 def complete(prompt): # complete a prompt with a given model
     
     print(prompt)
 
     res = openai.Completion.create( # complete prompt
-        model='curie:ft-personal:brodie-001-2023-03-03-15-45-53',
+        model='davinci:ft-personal:brodie-small-2023-03-07-19-19-54',
         prompt=prompt,
         temperature=0.1,
         max_tokens=256,
         top_p=1,
-        frequency_penalty=0.5,
-        presence_penalty=0.5,
-        stop=["\\n\\n###\\n\\n", "###"]
+        frequency_penalty=0,
+        presence_penalty=0,
+        stop=["###", "\\n###\\n","\n"]
         )
     return res['choices'][0]['text'].strip() # return the completion
 
@@ -61,7 +50,7 @@ def retrieve(query, prompt):
     )
 
     xq = res['data'][0]['embedding'] # retrieve from Pinecone
-    res = index.query(xq, top_k=5, include_metadata=True) # get relevant contexts
+    res = index.query(xq, top_k=2, include_metadata=True) # get relevant contexts
     contexts = [
         x['metadata']['chat'] for x in res['matches'] # extract the contexts
     ]
@@ -87,6 +76,7 @@ def retrieve(query, prompt):
                 prompt_end
             )
     return prompt
+
 
 def doCompletion (query, prompt):
     created_prompt = retrieve(query, prompt)
