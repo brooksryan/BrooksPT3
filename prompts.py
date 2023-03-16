@@ -69,6 +69,6 @@ class simplified_prompt:
     
     def prompt_end(self):
         end_prompt_text = (
-            f"\n\nQuestion: {self.query} \n Answer:"
+            f"\n\nQuestion:{self.query}\nAnswer:"
         )
         return end_prompt_text

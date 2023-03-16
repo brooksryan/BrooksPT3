@@ -12,7 +12,7 @@ app = Flask(__name__)
 @app.route('/', methods=['POST'])
 def standard_response():
     
-    print('\n'+'Question' + request.json['input_text'])
+    print('\n'+'------- new question -------'+'\n')
     
     input_text = request.json['input_text']
     
@@ -20,7 +20,7 @@ def standard_response():
 
     output_text = brooksChat.doCompletion(input_text, prompt)
 
-    print('\n'+'Answer:' + output_text)
+    print(output_text)
 
     return {'output_text': output_text}
 
@@ -38,6 +38,7 @@ def standard_response_v2():
     print(selected_prompt_formatter.assistant_prompt_start())
 
     prompt_and_context_tool = brooksChat002.create_completion_prompt_v2(input_text, selected_prompt_formatter)
+
     prompt_and_context_tool.retrieve_question_embedding_v2()
     prompt_and_context_tool.retrieve_contexts_v2()
     prompt_and_context_tool.build_prompt_v2()
@@ -45,7 +46,7 @@ def standard_response_v2():
 
     output_text = brooksChat002.complete(prompt_and_context_tool.completed_prompt, prompt_and_context_tool.completed_question)
 
-    print('\n'+'Answer:' + output_text)
+    print(output_text)
     return {'output_text': output_text}
 
 if __name__ == '__main__':
