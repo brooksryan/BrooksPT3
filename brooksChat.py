@@ -38,11 +38,9 @@ def complete(prompt): # complete a prompt with a given model
 limit = 5000
 def retrieve(query, prompt):
     
-    query = "brooks: " + query
+    query = query
 
     current_prompt = prompt
-   
-    print(query)
     
     res = openai.Embedding.create( # embed query
         input=[query],
@@ -54,7 +52,6 @@ def retrieve(query, prompt):
     contexts = [
         x['metadata']['chat'] for x in res['matches'] # extract the contexts
     ]
-    print(res['matches'])
     # build our prompt with the retrieved contexts included
     prompt_start = current_prompt.prompt_start()
     # add query to prompt
@@ -62,17 +59,17 @@ def retrieve(query, prompt):
 
     # append contexts until hitting limit
     for i in range(len(contexts)):
-        if len("\n\n---\n\n".join(contexts[:i])) >= limit:
+        if len("\n---\n".join(contexts[:i])) >= limit:
             prompt = (
                 prompt_start +
-                "\n\n---\n\n".join(contexts[:i-1]) +
+                "\n---\n".join(contexts[:i-1]) +
                 prompt_end
             )
             break
         elif i == len(contexts)-1:
             prompt = (
                 prompt_start +
-                "\n\n---\n\n".join(contexts) +
+                "\n---\n".join(contexts) +
                 prompt_end
             )
     return prompt
